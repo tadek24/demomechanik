@@ -7,9 +7,9 @@ import { Footer } from "@/components/layout/Footer";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Najlepszy mechanik Nowy Sącz | AutoMechanik Premium",
-  description: "Szukasz profesjonalnego warsztatu samochodowego w Nowym Sączu? Oferujemy kompleksową mechanikę, elektrykę i diagnostykę. Umów się na wizytę już dziś!",
-  keywords: "mechanik Nowy Sącz, warsztat samochodowy Nowy Sącz, naprawa aut, diagnostyka komputerowa, wymiana oleju, wulkanizacja Nowy Sącz",
+  title: "Najlepszy mechanik Ptaszkowa | AutoMechanik Premium",
+  description: "Zaufany warsztat samochodowy w Ptaszkowej. Szybki dojazd, laweta dla klientów z Grybowa, Nowego Sącza i okolic 100km. Diagnostyka, elektryka i mechanika.",
+  keywords: "mechanik Ptaszkowa, warsztat samochodowy Ptaszkowa, naprawa aut Grybów, laweta Ptaszkowa, wymiana oleju, komputerowa diagnostyka Stróże",
 };
 
 export default function RootLayout({
@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="pl" className="dark">
       <body className={`${inter.variable} min-h-screen flex flex-col font-sans antialiased bg-background text-foreground`}>
         <Navbar />
-        <main className="flex-1">
+        <main className="flex-1 w-full overflow-hidden">
           {children}
         </main>
         <Footer />

@@ -1,240 +1,193 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { Wrench, ShieldCheck, Clock, Settings, Star, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
+import { Wrench, ShieldCheck, Clock, Settings, Star, MapPin, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/Card";
 
 export default function Home() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "AutoRepair",
-    "name": "AutoMechanik Premium Nowy Sącz",
-    "image": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80",
-    "@id": "",
-    "url": "https://mechanik-nowysacz-demo.pl",
-    "telephone": "+48 123 456 789",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "ul. Przykładowa 12",
-      "addressLocality": "Nowy Sącz",
-      "postalCode": "33-300",
-      "addressCountry": "PL"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 49.6217,
-      "longitude": 20.6970
-    },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "08:00",
-        "closes": "18:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Saturday",
-        "opens": "08:00",
-        "closes": "14:00"
-      }
-    ],
-    "priceRange": "$$"
+  const fadeInUp = {
+    initial: { opacity: 0, y: 40 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-100px" },
+    transition: { duration: 0.6, ease: "easeOut" as const }
+  };
+
+  const slideInRight = {
+    initial: { opacity: 0, x: 60 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.7, ease: "easeOut" as const }
   };
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-24 pb-32 md:pt-36 md:pb-48">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-background/90 z-10"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent z-10"></div>
-          <Image
-            src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80"
-            alt="Nowoczesny warsztat samochodowy w Nowym Sączu"
-            fill
-            className="object-cover"
-            priority
-          />
+    <div className="overflow-hidden">
+      {/* Framer Motion Animowany Hero Section */}
+      <section className="relative min-h-[90vh] flex items-center pt-20 pb-32">
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <div className="absolute inset-0 bg-background/80 lg:bg-background/60 z-10 backdrop-blur-[2px]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10"></div>
+          <motion.div 
+            initial={{ scale: 1.1, opacity: 0.5 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.5 }}
+            className="w-full h-full relative"
+          >
+            <Image
+              src="https://images.unsplash.com/photo-1520638575005-59fb95dc7c96?q=80&w=1500&auto=format&fit=crop"
+              alt="Ekskluzywny warsztat i mechanik w Ptaszkowej"
+              fill
+              className="object-cover"
+              priority
+            />
+          </motion.div>
         </div>
         
         <div className="container relative z-20 mx-auto px-4 lg:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
-              Profesjonalny Serwis <br />
-              <span className="text-primary">Samochodowy</span> w Nowym Sączu
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="max-w-3xl"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 border border-primary/30 text-primary uppercase tracking-widest text-xs font-bold mb-6">
+              <Star className="w-3 h-3 fill-current" /> Najwyższa jakość napraw
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black text-white leading-tight mb-6 tracking-tight">
+              Twój zaufany <span className="text-primary">mechanik</span> w Ptaszkowej
             </h1>
-            <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl">
-              Specjalizujemy się w nowoczesnej mechanice, diagnostyce komputerowej i naprawach premium. Zaufaj ekspertom z wieloletnim doświadczeniem.
+            <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl font-light">
+              Oferujemy najwyższy standard diagnostyki i napraw. Szybki dojazd, auto zastępcze i 
+              laweta dla klientów z okolicznych miejscowości (Grybów, Nowy Sącz).
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/rezerwacja">
-                <Button size="lg" className="w-full sm:w-auto text-lg no-underline font-semibold h-14 px-8">
-                  Zarezerwuj termin
-                </Button>
-              </Link>
-              <Link href="/uslugi">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg h-14 px-8">
-                  Nasze usługi
+                <Button size="lg" className="w-full sm:w-auto text-lg no-underline font-semibold h-14 px-8 rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1 transition-all">
+                  Zarezerwuj wizytę
                 </Button>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Dlaczego my? */}
-      <section className="py-20 bg-card/30">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Dlaczego my?</h2>
-            <p className="text-gray-400">Oferujemy standardy premium w cenach przyjaznych dla każdego klienta z Nowego Sącza i okolic.</p>
-          </div>
+      {/* Zaufaj profesjonalistom */}
+      <section className="py-24 relative overflow-hidden bg-background">
+        <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+          <motion.div 
+            {...fadeInUp}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-6">Zaufaj profesjonalistom</h2>
+            <p className="text-gray-400 text-lg">Ptaszkowa to nasze serce operacyjne, ale pomagamy kierowcom z całej południowej Małopolski.</p>
+          </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="bg-card">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
-                  <ShieldCheck size={28} />
-                </div>
-                <CardTitle className="text-xl">Gwarancja Jakości</CardTitle>
-                <CardDescription>Używamy tylko oryginalnych części lub certyfikowanych zamienników. Na każdą naprawę otrzymujesz gwarancję.</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="bg-card">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
-                  <Clock size={28} />
-                </div>
-                <CardTitle className="text-xl">Terminowość</CardTitle>
-                <CardDescription>Szanujemy Twój czas. Naprawy wykonujemy w umówionym terminie, bez zbędnych opóźnień.</CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="bg-card">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
-                  <Settings size={28} />
-                </div>
-                <CardTitle className="text-xl">Nowoczesny Sprzęt</CardTitle>
-                <CardDescription>Dysponujemy najnowocześniejszym sprzętem diagnostycznym, obsługującym auta wszystkich marek.</CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Usługi Zarys */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 lg:px-8 flex flex-col lg:flex-row items-center gap-16">
-          <div className="lg:w-1/2">
-            <div className="relative h-[400px] w-full rounded-2xl overflow-hidden border border-border shadow-2xl">
-              <Image 
-                src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&q=80"
-                alt="Diagnostyka komputerowa samochodów w Nowym Sączu"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-          <div className="lg:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Kompleksowa opieka nad Twoim autem</h2>
-            <p className="text-gray-400 mb-8 text-lg">
-              Od drobnych napraw po generalne remonty silników. Jeśli szukasz rzetelnego mechanika w Nowym Sączu, świetnie trafiłeś.
-            </p>
-            
-            <ul className="space-y-4 mb-8">
-              <li className="flex items-center gap-3">
-                <Wrench className="text-primary flex-shrink-0" />
-                <span className="text-gray-200">Mechanika i naprawy bieżące</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Wrench className="text-primary flex-shrink-0" />
-                <span className="text-gray-200">Zaawansowana diagnostyka komputerowa</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Wrench className="text-primary flex-shrink-0" />
-                <span className="text-gray-200">Elektryka i elektronika samochodowa</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Wrench className="text-primary flex-shrink-0" />
-                <span className="text-gray-200">Serwis klimatyzacji i wulkanizacja</span>
-              </li>
-            </ul>
-
-            <Link href="/uslugi">
-              <Button variant="outline">Poznaj pełną ofertę</Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Opinie */}
-      <section className="py-20 bg-card/50">
-        <div className="container mx-auto px-4 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Co mówią nasi Klienci?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { author: "Jan Kowalski", body: "Najlepszy warsztat w Nowym Sączu! Pełen profesjonalizm i świetny kontakt. Auto naprawione w 1 dzień." },
-              { author: "Anna Nowak", body: "Bardzo polecam. Wymiana rozrządu przeprowadzona szybko i uczciwie, pokazali mi nawet zużyte części." },
-              { author: "Piotr Wiśniewski", body: "W końcu znalazłem mechanika, który nie naciąga! Jasna wycena przed naprawą, bez niespodzianek na końcu." },
-            ].map((review, i) => (
-              <Card key={i} className="bg-background border-border">
-                <CardContent className="pt-6">
-                  <div className="flex gap-1 text-primary mb-4">
-                    <Star fill="currentColor" size={18} />
-                    <Star fill="currentColor" size={18} />
-                    <Star fill="currentColor" size={18} />
-                    <Star fill="currentColor" size={18} />
-                    <Star fill="currentColor" size={18} />
-                  </div>
-                  <p className="text-gray-300 italic mb-6">"{review.body}"</p>
-                  <p className="font-semibold text-white">{review.author}</p>
-                </CardContent>
-              </Card>
+              { icon: ShieldCheck, title: "100% Gwarancji Uczciwości", desc: "Najpierw dzwonimy z kosztorysem. Brak ukrytych opłat napraw, zero wymuszonych wymian sprawnych części." },
+              { icon: Clock, title: "Zawsze na Czas", desc: "Precyzyjnie ustalamy termin odbioru auta. Jeśli potrzebujesz, udostępniamy zastępcze auto na czas dłuższego serwisu." },
+              { icon: Settings, title: "Aparatura Premium", desc: "Sprzęt diagnostyczny najnowszej generacji. Kody błędów, adaptacje i kodowanie komponentów w cenie wizyty." },
+            ].map((feature, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                className="group"
+              >
+                <Card className="bg-card/40 backdrop-blur-sm border-border/60 hover:bg-card/80 hover:border-primary/50 transition-all duration-300 rounded-2xl h-full shadow-lg shadow-black/20">
+                  <CardHeader>
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 flex items-center justify-center mb-6 text-primary group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                      <feature.icon size={26} />
+                    </div>
+                    <CardTitle className="text-2xl mb-2">{feature.title}</CardTitle>
+                    <CardDescription className="text-gray-400 text-base leading-relaxed">{feature.desc}</CardDescription>
+                  </CardHeader>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Mapa dojazdu i Kontakt C-to-A */}
-      <section className="py-20">
+      {/* Efektowna sekcja o usługach z Unsplash Image */}
+      <section className="py-24 bg-card/20 border-y border-border/40">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="overflow-hidden rounded-2xl border border-border shadow-xl flex flex-col md:flex-row">
-            <div className="md:w-1/2 bg-card p-12 flex flex-col justify-center">
-              <h2 className="text-3xl font-bold mb-6">Dotrzyj do nas bez problemu</h2>
-              <div className="space-y-6 mb-8">
-                <div className="flex items-start gap-4">
-                  <MapPin className="text-primary mt-1" size={24} />
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <motion.div 
+              {...slideInRight}
+              initial={{ opacity: 0, x: -60 }}
+              className="lg:w-1/2 w-full relative"
+            >
+              <div className="relative h-[500px] w-full rounded-[2rem] overflow-hidden border border-border shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+                <Image 
+                  src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1000&auto=format&fit=crop"
+                  alt="Precyzyjna mechanika i diagnostyka Ptaszkowa"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+              {/* Floating badge */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-6 -right-6 md:-right-10 bg-background border border-primary/30 p-6 rounded-2xl shadow-xl shadow-primary/10"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                    <CheckCircle2 fill="currentColor" className="text-white" />
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-white text-lg">Nasz adres</h3>
-                    <p className="text-gray-400">ul. Przykładowa 12<br />33-300 Nowy Sącz</p>
+                    <p className="font-bold text-white text-xl">Precyzja</p>
+                    <p className="text-gray-400 text-sm">w każdym detalu</p>
                   </div>
                 </div>
-              </div>
-              <Link href="/kontakt">
-                <Button>Skontaktuj się z nami</Button>
+              </motion.div>
+            </motion.div>
+
+            <motion.div 
+              {...slideInRight}
+              className="lg:w-1/2 w-full"
+            >
+              <h2 className="text-4xl md:text-5xl font-black mb-8 leading-tight">Wjeżdżasz problemem, wyjeżdżasz <span className="text-primary">rozwiązaniem</span></h2>
+              <p className="text-gray-400 mb-10 text-lg leading-relaxed">
+                Nasz warsztat w Ptaszkowej to owoc wielu lat pasji. Zapewniamy kompleksową mechanikę i diagnostykę. 
+                Gwarantujemy wparcie - laweta, auto zastępcze czy odwiezienie klienta do pobliskiego Nowego Sącza lub Grybowa to dla nas żaden problem.
+              </p>
+              
+              <ul className="space-y-5 mb-10">
+                {[
+                  "Kompleksowa mechanika pojazdowa i remonty silników",
+                  "Geometria 3D, zawieszenie i układy hamulcowe",
+                  "Elektro-mechanika, Chiptuning, DPF, EGR",
+                  "Pełny serwis klimatyzacji najnowszym gazem"
+                ].map((item, idx) => (
+                  <motion.li 
+                    key={idx}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="flex items-center gap-4 bg-card/60 p-4 rounded-xl border border-border/50"
+                  >
+                    <Wrench className="text-primary flex-shrink-0" />
+                    <span className="text-gray-200 font-medium">{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+
+              <Link href="/uslugi">
+                <Button variant="outline" size="lg" className="h-14 px-8 rounded-xl">Sprawdź pełny cennik</Button>
               </Link>
-            </div>
-            
-            <div className="md:w-1/2 h-[400px] md:h-auto relative bg-neutral-800">
-              {/* Google Maps mock placeholder */}
-              <div className="absolute inset-0 flex items-center justify-center bg-zinc-800/80">
-                <div className="text-center p-6 bg-card border border-border rounded-xl shadow-lg max-w-sm">
-                  <MapPin className="text-primary mx-auto mb-4" size={48} />
-                  <p className="text-white font-medium">Mapa Google - Nowy Sącz<br/><span className="text-gray-400 text-sm">(Miejsce na interaktywną mapę)</span></p>
-                </div>
-              </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
