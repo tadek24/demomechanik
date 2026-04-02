@@ -53,14 +53,14 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-4 text-white flex items-center gap-2">
               <Navigation className="h-5 w-5 text-primary"/> Obsługujemy klientów z:
             </h3>
-            <div className="flex flex-wrap gap-2 text-sm">
+            <div className="flex flex-row flex-wrap gap-3">
               {seoCities.map(city => {
                 const slug = city.toLowerCase().replace(/ /g, "-").replace(/ą/g, "a").replace(/ę/g, "e").replace(/ół/g, "ol").replace(/ó/g, "o").replace(/ś/g, "s").replace(/ć/g, "c").replace(/ż/g, "z").replace(/ź/g, "z").replace(/ł/g, "l").replace(/ń/g, "n");
                 return (
                   <Link 
                     key={city}
                     href={`/obszar-dzialania/${slug}`} 
-                    className="rounded-full border border-gray-700/80 bg-gray-900 px-3 py-1.5 text-gray-300 transition-all hover:bg-primary/20 hover:border-primary hover:text-white hover:-translate-y-[1px]"
+                    className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-sm hover:bg-orange-600 hover:text-white transition-all duration-300 hover:-translate-y-[1px] text-gray-300"
                   >
                     Mechanik {city}
                   </Link>

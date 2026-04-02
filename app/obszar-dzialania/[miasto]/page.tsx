@@ -1,27 +1,29 @@
 import { MapPin, Truck, Wrench, ShieldCheck } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
 interface Props {
-  params: { miasto: string };
+  params: Promise<{ miasto: string }>;
 }
 
 const slugToName = (slug: string) => {
-  const parts = slug.split('-');
+  const decoded = decodeURIComponent(slug);
+  const parts = decoded.split('-');
   return parts.map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
 };
 
 export async function generateMetadata({ params }: Props) {
-  const miasto = slugToName(params.miasto);
+  const resolvedParams = await params;
+  const miasto = slugToName(resolvedParams.miasto);
   return {
     title: `Mechanik ${miasto} | Szybki Dojazd z Ptaszkowej | AutoMechanik Premium`,
     description: `Nasz warsztat w Ptaszkowej obsługuje wielu kierowców z miejscowości ${miasto}. Oferujemy pełną diagnostykę, szybkie terminy i – w razie potrzeby – pomoc w odholowaniu auta.`,
   };
 }
 
-export default function ObszarDzialaniaPage({ params }: Props) {
-  const miasto = slugToName(params.miasto);
+export default async function ObszarDzialaniaPage({ params }: Props) {
+  const resolvedParams = await params;
+  const miasto = slugToName(resolvedParams.miasto);
 
   return (
     <div className="w-full">
@@ -29,12 +31,10 @@ export default function ObszarDzialaniaPage({ params }: Props) {
       <section className="relative overflow-hidden pt-24 pb-32 border-b border-border">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-background/90 z-10"></div>
-          <Image
+          <img
             src="https://images.unsplash.com/photo-1503376713356-1a1a36b2a0a6?q=80&w=1000&auto=format&fit=crop"
             alt={`Mechanik dla klientów z ${miasto}`}
-            fill
-            className="object-cover"
-            priority
+            className="w-full h-full object-cover absolute inset-0 z-0"
           />
         </div>
         
@@ -80,12 +80,11 @@ export default function ObszarDzialaniaPage({ params }: Props) {
                     </li>
                  </ul>
                </div>
-               <div className="relative h-[450px] rounded-[2rem] overflow-hidden shadow-2xl border border-border">
-                  <Image 
+               <div className="relative h-[450px] rounded-[2rem] overflow-hidden shadow-2xl border border-transparent">
+                  <img 
                     src="https://images.unsplash.com/photo-1563261623-01bd930a6c0c?q=80&w=1000&auto=format&fit=crop"
                     alt={`Diagnostyka komputerowa samochodów ${miasto}`}
-                    fill
-                    className="object-cover"
+                    className="w-full h-full object-cover rounded-xl shadow-lg"
                   />
                </div>
             </div>

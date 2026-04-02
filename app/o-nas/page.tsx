@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/Card";
-import Image from "next/image";
 
 export default function AboutPage() {
   return (
@@ -23,11 +22,10 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="relative h-[300px] rounded-xl overflow-hidden shadow-lg border border-border">
-             <Image 
+             <img 
                 src="https://images.unsplash.com/photo-1632823465306-edeb5ce5e6f6?auto=format&fit=crop&q=80"
                 alt="Historia warsztatu Nowy Sącz"
-                fill
-                className="object-cover"
+                className="w-full h-full object-cover absolute inset-0 block"
               />
           </div>
         </div>

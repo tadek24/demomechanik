@@ -12,6 +12,7 @@ export function Navbar() {
     { href: "/", label: "Główna" },
     { href: "/o-nas", label: "O nas" },
     { href: "/uslugi", label: "Usługi" },
+    { href: "/cennik", label: "Kalkulator Wyceny" },
     { href: "/faq", label: "FAQ" },
     { href: "/kontakt", label: "Kontakt" },
   ];

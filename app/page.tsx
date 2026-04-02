@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Wrench, ShieldCheck, Clock, Settings, Star, MapPin, CheckCircle2 } from "lucide-react";
@@ -35,12 +34,10 @@ export default function Home() {
             transition={{ duration: 1.5 }}
             className="w-full h-full relative"
           >
-            <Image
+            <img
               src="https://images.unsplash.com/photo-1520638575005-59fb95dc7c96?q=80&w=1500&auto=format&fit=crop"
               alt="Ekskluzywny warsztat i mechanik w Ptaszkowej"
-              fill
-              className="object-cover"
-              priority
+              className="w-full h-full object-cover absolute inset-0 -z-10"
             />
           </motion.div>
         </div>
@@ -125,11 +122,10 @@ export default function Home() {
               className="lg:w-1/2 w-full relative"
             >
               <div className="relative h-[500px] w-full rounded-[2rem] overflow-hidden border border-border shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-                <Image 
+                <img 
                   src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1000&auto=format&fit=crop"
                   alt="Precyzyjna mechanika i diagnostyka Ptaszkowa"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 absolute inset-0"
                 />
               </div>
               {/* Floating badge */}
