@@ -53,18 +53,20 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-4 text-white flex items-center gap-2">
               <Navigation className="h-5 w-5 text-primary"/> Obsługujemy klientów z:
             </h3>
-            <ul className="flex flex-wrap gap-2 text-sm text-gray-400">
-              {seoCities.map(city => (
-                <li key={city}>
+            <div className="flex flex-wrap gap-2 text-sm">
+              {seoCities.map(city => {
+                const slug = city.toLowerCase().replace(/ /g, "-").replace(/ą/g, "a").replace(/ę/g, "e").replace(/ół/g, "ol").replace(/ó/g, "o").replace(/ś/g, "s").replace(/ć/g, "c").replace(/ż/g, "z").replace(/ź/g, "z").replace(/ł/g, "l").replace(/ń/g, "n");
+                return (
                   <Link 
-                    href={`/obszar-dzialania/${city.toLowerCase().replace(/ /g, "-").replace(/ą/g, "a").replace(/ę/g, "e").replace(/ół/g, "ol").replace(/ó/g, "o").replace(/ś/g, "s").replace(/ć/g, "c").replace(/ż/g, "z").replace(/ź/g, "z").replace(/ł/g, "l").replace(/ń/g, "n")}`} 
-                    className="hover:text-primary transition-colors hover:underline"
+                    key={city}
+                    href={`/obszar-dzialania/${slug}`} 
+                    className="rounded-full border border-gray-700/80 bg-gray-900 px-3 py-1.5 text-gray-300 transition-all hover:bg-primary/20 hover:border-primary hover:text-white hover:-translate-y-[1px]"
                   >
                     Mechanik {city}
                   </Link>
-                </li>
-              ))}
-            </ul>
+                );
+              })}
+            </div>
           </div>
         </div>
         

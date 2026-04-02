@@ -3,15 +3,20 @@
 import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Info, Calendar as CalIcon, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { Info, Calendar as CalIcon, ChevronLeft, ChevronRight, Clock } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function BookingPage() {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
   // Mocked calendar state: day numbers. (gray logic: some are taken like 14, 15, 20)
   const daysInMonth = Array.from({ length: 30 }, (_, i) => i + 1);
   const takenDays = [1, 2, 4, 10, 11, 14, 15, 17, 24, 25];
+
+  // Mocked time state
+  const timeSlots = ["08:00", "09:00", "10:00", "12:00", "14:00"];
+  const takenTimes = ["09:00", "12:00"];
 
   return (
     <div className="container mx-auto px-4 py-16 lg:px-8">
@@ -29,7 +34,7 @@ export default function BookingPage() {
              animate={{ opacity: 1, x: 0 }} 
              transition={{ duration: 0.5 }}
           >
-            <Card className="bg-card shadow-xl border-border/80 h-full">
+            <Card className="bg-card shadow-xl border-border/80 h-full flex flex-col">
               <CardHeader className="bg-background/50 border-b border-border/50 pb-6 rounded-t-xl">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-xl flex items-center gap-2">
@@ -45,7 +50,7 @@ export default function BookingPage() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="pt-6">
+              <CardContent className="pt-6 flex-1 flex flex-col">
                 <div className="grid grid-cols-7 gap-2 mb-2 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   <div>Pon</div><div>Wto</div><div>Śro</div><div>Czw</div><div>Pią</div><div>Sob</div><div>Nie</div>
                 </div>
@@ -61,7 +66,10 @@ export default function BookingPage() {
                        <button
                          key={day}
                          disabled={isTaken}
-                         onClick={() => setSelectedDay(day)}
+                         onClick={() => {
+                           setSelectedDay(day);
+                           setSelectedTime(null); // Reset time when picking a new day
+                         }}
                          className={`h-11 rounded-md text-sm font-medium transition-all duration-200 border
                           ${isTaken 
                             ? 'bg-neutral-900 border-neutral-900 text-neutral-700 cursor-not-allowed line-through decoration-neutral-800' 
@@ -77,7 +85,7 @@ export default function BookingPage() {
                   })}
                 </div>
 
-                <div className="flex gap-4 text-xs mt-8 pb-2 border-b border-border/40">
+                <div className="flex gap-4 text-xs mb-8 pb-4 border-b border-border/40">
                    <div className="flex items-center gap-2">
                       <span className="w-3 h-3 rounded-full bg-neutral-800 border border-neutral-700"></span> Zajęte
                    </div>
@@ -88,6 +96,46 @@ export default function BookingPage() {
                       <span className="w-3 h-3 rounded-full bg-primary shadow-sm shadow-primary/40"></span> Wybrane
                    </div>
                 </div>
+
+                {/* Animated Time Selection Grid */}
+                <AnimatePresence>
+                  {selectedDay && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden mt-auto"
+                    >
+                      <h4 className="text-sm font-semibold text-gray-300 mb-4 flex items-center gap-2">
+                        <Clock size={16} className="text-primary" />
+                        Wybierz preferowaną godzinę zostawienia auta
+                      </h4>
+                      <div className="grid grid-cols-3 gap-3">
+                        {timeSlots.map(time => {
+                          const isTaken = takenTimes.includes(time);
+                          const isSelected = selectedTime === time;
+                          return (
+                            <button
+                              key={time}
+                              disabled={isTaken}
+                              onClick={() => setSelectedTime(time)}
+                              className={`py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 border
+                                ${isTaken 
+                                  ? 'bg-neutral-900 border-neutral-900 text-neutral-700 cursor-not-allowed line-through decoration-neutral-800' 
+                                  : isSelected
+                                     ? 'bg-primary border-primary text-white shadow-lg shadow-primary/30'
+                                     : 'bg-background border-border hover:border-emerald-500/50 hover:bg-emerald-500/10 text-gray-300'
+                                } 
+                              `}
+                            >
+                              {time}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </CardContent>
             </Card>
           </motion.div>
@@ -105,9 +153,9 @@ export default function BookingPage() {
                 </CardHeader>
                 <CardContent className="space-y-5">
                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-300">Wybrany dzień</label>
+                      <label className="text-sm font-medium text-gray-300">Wybrany termin</label>
                       <div className="w-full bg-neutral-900/50 border border-neutral-800 rounded-md px-4 py-3 text-white font-mono">
-                         {selectedDay ? `${selectedDay} Październik 2026, godzina ustalana telefonicznie` : "Wybierz datę z kalendarza po lewej..."}
+                         {selectedDay && selectedTime ? `${selectedDay} Październik 2026, godzina ${selectedTime}` : "Wybierz datę i godzinę z kalendarza po lewej..."}
                       </div>
                    </div>
                    <div className="space-y-2">
@@ -119,7 +167,7 @@ export default function BookingPage() {
                       <textarea rows={3} placeholder="Stuka w prawym kole podczas skrętu..." className="w-full bg-background border border-border rounded-md px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
                    </div>
                    
-                   <Button size="lg" className="w-full text-lg h-14 mt-4" disabled={!selectedDay}>
+                   <Button size="lg" className="w-full text-lg h-14 mt-4" disabled={!selectedDay || !selectedTime}>
                       Rezerwuję Termin
                    </Button>
                 </CardContent>
@@ -130,7 +178,7 @@ export default function BookingPage() {
                 <Info className="text-primary mt-1 flex-shrink-0" size={24}/>
                 <p className="text-sm text-gray-300 leading-relaxed font-medium">
                   <strong>Każda rezerwacja jest bezwzględnie potwierdzana wiadomością SMS</strong> oraz wpisywana do naszego systemu. 
-                  Gdy uruchomimy pełną platformę dla warsztatu, system zarejestruje integrację i zsynchronizujemy kalendarz wizyt prosto z Twoim Kalendarzem Google!
+                  (W pełnej wersji system zsynchronizujemy z Twoim Kalendarzem Google!)
                 </p>
              </div>
           </motion.div>
